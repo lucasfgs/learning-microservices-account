@@ -3,9 +3,9 @@ import { objectKeyExists } from '@application/helpers/objects/objectKeyExists'
 import { Middleware } from '@application/protocols/middlewares/middleware'
 import { MiddlewareRequestModel } from '@application/protocols/requests/Http'
 import { Jwt } from '@application/protocols/security/Jwt'
-import { IUser } from '@domain/models/IUser'
 import { IUserRepository } from '@domain/repositories/IUserRepository'
 import { UnauthorizedError } from '@application/errors/UnauthorizedError'
+import { formatUserPermissions } from '@application/helpers/arrays/formatUserPermissions'
 
 export class Authenticate implements Middleware {
   constructor (
@@ -32,7 +32,7 @@ export class Authenticate implements Middleware {
 
     const user = await this.userRepository.findUserPermissionsById(id)
 
-    const userPermissions = this.formatUserPermissions(user)
+    const userPermissions = formatUserPermissions(user)
 
     if (!userPermissions.includes(routePermission)) { throw new UnauthorizedError('User has no permission') }
 
@@ -51,18 +51,5 @@ export class Authenticate implements Middleware {
     } catch (error) {
       throw new UnauthorizedError(error.message)
     }
-  }
-
-  private formatUserPermissions (user: IUser): string[] {
-    const userPermissions = []
-
-    user.role.permissionRoles.map(permissionRole => {
-      permissionRole.create && userPermissions.push(`${permissionRole.permission.name}.create`)
-      permissionRole.read && userPermissions.push(`${permissionRole.permission.name}.read`)
-      permissionRole.update && userPermissions.push(`${permissionRole.permission.name}.update`)
-      permissionRole.delete && userPermissions.push(`${permissionRole.permission.name}.delete`)
-    })
-
-    return userPermissions
   }
 }

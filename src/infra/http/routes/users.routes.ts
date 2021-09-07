@@ -15,7 +15,7 @@ export default (router: Router): void => {
 
   const { authenticate } = authenticateMiddlewareFactory()
 
-  router.get('/users', middlewareAdapter(authenticate, 'User.create', ['Marketing']), routeAdapter(findAllUsersController))
+  router.get('/users', middlewareAdapter(authenticate, 'Community.read'), routeAdapter(findAllUsersController))
   router.post('/users', routeAdapter(createUserController))
   router.put('/users/:id', routeAdapter(updateUserController))
   router.delete('/users/:id', routeAdapter(deleteUserController))

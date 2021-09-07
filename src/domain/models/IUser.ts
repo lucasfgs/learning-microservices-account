@@ -17,5 +17,6 @@ export type IUpdateUser = Omit<IUser, 'createdAt' | 'updatedAt'>
 export type IUserLoginRequest = Pick<IUser, 'email' | 'password'>
 
 export interface IUserLoginResponse {
-    token: string
+    token: string,
+    permissions: string[]
 }

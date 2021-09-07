@@ -7,6 +7,7 @@ import { JwtAdapter } from '@main/adapters/security/JwtAdapter'
 import { InternalServerError } from '@application/errors/InternalServerError'
 import { NotFoundError } from '@application/errors/NotFoundError'
 import { UnauthorizedError } from '@application/errors/UnauthorizedError'
+import { formatUserPermissions } from '@application/helpers/arrays/formatUserPermissions'
 
 export class LoginUseCase implements ILoginUseCase {
   constructor (
@@ -26,11 +27,15 @@ export class LoginUseCase implements ILoginUseCase {
 
     const user = await this.checkUserByEmail(requestModel.email)
 
+    console.log(user)
+
     await this.checkPassword(user, requestModel)
 
     const token = this.jwtAdapter.sign({ id: user.id, role: user.role.name })
 
-    return { token }
+    const permissions = formatUserPermissions(user)
+
+    return { token, permissions }
   }
 
   private async validate (requestModel: IUserLoginRequest) {
