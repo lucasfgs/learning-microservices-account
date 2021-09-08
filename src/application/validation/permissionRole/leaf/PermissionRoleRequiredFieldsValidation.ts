@@ -1,8 +1,8 @@
 import { isBoolean } from '@application/helpers/boolean/isBoolean'
-import { isAPositiveNumber } from '@application/helpers/numbers/isAPositiveNumber'
 import { ICreatePermissionRole } from '@domain/models/IPermissionRole'
 import { RequestValidationError } from '@application/errors/RequestValidationError'
 import { ValidationComposite } from '@application/protocols/validation/ValidationComposite'
+import { isString } from '@application/helpers/strings/isString'
 
 export class PermissionRoleRequiredFieldsValidation extends ValidationComposite<ICreatePermissionRole> {
   validate (request: ICreatePermissionRole): void {
@@ -18,19 +18,10 @@ export class PermissionRoleRequiredFieldsValidation extends ValidationComposite<
 
     if (!isBoolean(destroy)) { error.messages.push('Invalid field: destroy') }
 
-    this.validatePositiveNumberIfExists(+permission, 'permission')
+    if (!isString(permission)) { error.messages.push('Invalid field: permission') }
 
-    this.validatePositiveNumberIfExists(+role, 'role')
+    if (!isString(role)) { error.messages.push('Invalid field: role') }
 
     if (error.messages.length > 1) { throw error }
-  }
-
-  private validatePositiveNumberIfExists (
-    value: string | number,
-    field: string
-  ): void | never {
-    if (!isAPositiveNumber(value)) {
-      throw new RequestValidationError(`Expected a positive number: ${field}`)
-    }
   }
 }

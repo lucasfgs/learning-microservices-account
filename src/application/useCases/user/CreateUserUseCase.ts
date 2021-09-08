@@ -24,7 +24,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
 
     await this.checkUserEmailExists(requestModel.email)
 
-    await this.checkRoleExists(+requestModel.role)
+    await this.checkRoleExists(requestModel.role as unknown as string)
 
     requestModel.password = await this.passwordHashing.hash(requestModel.password)
 
@@ -37,7 +37,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
     if (userExists) throw new DataAlreadyExistsError('E-mail already exists')
   }
 
-  private async checkRoleExists (roleId: number) {
+  private async checkRoleExists (roleId: string) {
     const role = await this.roleRepository.findById(roleId)
 
     if (!role) throw new NotFoundError('Role not found')

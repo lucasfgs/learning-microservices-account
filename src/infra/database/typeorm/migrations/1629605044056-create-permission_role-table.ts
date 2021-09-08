@@ -7,19 +7,20 @@ export class createPermissionGroupTable1629605044056 implements MigrationInterfa
       columns: [
         {
           name: 'id',
-          type: 'int',
+          type: 'uuid',
           isPrimary: true,
           isGenerated: true,
-          generationStrategy: 'increment'
+          generationStrategy: 'uuid',
+          default: 'uuid_generate_v4()'
         },
         {
           name: 'permission',
-          type: 'int',
+          type: 'uuid',
           isNullable: false
         },
         {
           name: 'role',
-          type: 'int',
+          type: 'uuid',
           isNullable: false
         },
         {

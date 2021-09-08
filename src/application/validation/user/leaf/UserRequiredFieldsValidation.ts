@@ -1,4 +1,3 @@
-import { isAPositiveNumber } from '@application/helpers/numbers/isAPositiveNumber'
 import { isString } from '@application/helpers/strings/isString'
 import { ICreateUser } from '@domain/models/IUser'
 import { RequestValidationError } from '@application/errors/RequestValidationError'
@@ -16,7 +15,7 @@ export class UserRequiredFieldsValidation extends ValidationComposite<ICreateUse
 
     if (!isString(password)) { error.messages.push('Invalid field: password') }
 
-    if (!isAPositiveNumber(+role)) { error.messages.push('Invalid field: role') }
+    if (!isString(role)) { error.messages.push('Invalid field: role') }
 
     if (error.messages.length > 1) { throw error }
   }

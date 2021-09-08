@@ -7,10 +7,11 @@ export class createUserTable1629983123019 implements MigrationInterface {
       columns: [
         {
           name: 'id',
-          type: 'int',
+          type: 'uuid',
           isPrimary: true,
           isGenerated: true,
-          generationStrategy: 'increment'
+          generationStrategy: 'uuid',
+          default: 'uuid_generate_v4()'
         },
         {
           name: 'name',
@@ -32,7 +33,7 @@ export class createUserTable1629983123019 implements MigrationInterface {
         },
         {
           name: 'role',
-          type: 'int',
+          type: 'uuid',
           isNullable: false
         },
         {

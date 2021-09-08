@@ -7,6 +7,8 @@ import { setupRoutes } from './setup/setupRoutes'
 import { createConnection } from 'typeorm'
 import { setupErrorHandler } from './setup/setupErrorHandler'
 
+import '../cache/redis'
+
 export async function run () {
   await createConnection()
   const app = express()
