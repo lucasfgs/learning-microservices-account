@@ -34,8 +34,6 @@ export class Authenticate implements Middleware {
 
     const userCachedPermissions = await this.caching.getData(`user-${id}`)
 
-    console.log(userCachedPermissions)
-
     if (userCachedPermissions) {
       user = JSON.parse(userCachedPermissions) as IUser
     } else {
