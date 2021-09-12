@@ -15,6 +15,7 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "array-callback-return": "off"
+        "array-callback-return": "off",
+        "no-useless-constructor": "off"
     }
 }
